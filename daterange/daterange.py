@@ -78,10 +78,12 @@ def period_range(start_date, end_date=None, num=None,
         Частота интервалов. Можно в разных регистрах указывать.
     :param start_date_adjustment_by_frequency: сделать началом периода выбранной частоты.
         Например если выбран месяц, то start_date будет переведен в дату начала месяца.
+    :param end_date_adjustment_by_frequency: сделать конец периода выбранной частоты.
+        Например если выбран месяц, то end_date будет переведен в дату конца месяца.
+    :param add_string_date: Добавить в словарь даты в формате строки.
     :param return_type: 'dict' | 'tuple' ;
         dict вернет интервалы как [..., dict(date1=dt, date2=dt)]
         tuple вернет интервалы как [..., (dt, dt)]
-    :param return_string_format: Если False вернет в формате datetime, иначе строкой
     :param string_format: формат возвращаемой строки, если return_string_format == True
     :return: [..., dict(date1=dt, date2=dt, date1_str=str, date2_str=str)] | [..., (dt, dt, str, str)]
     """
@@ -90,11 +92,13 @@ def period_range(start_date, end_date=None, num=None,
 
     frequency = frequency.lower()
 
+    # Преобразование в datetime формат.
     if type(start_date) is str:
         start_date = parser.parse(start_date)
     if type(end_date) is str:
         end_date = parser.parse(end_date)
 
+    # Определение end_date, если он не указан.
     if end_date is None:
         if frequency in ('day', 'date'):
             end_date = start_date + timedelta(num - 1)
@@ -102,11 +106,11 @@ def period_range(start_date, end_date=None, num=None,
             # TODO: тест на вызов ошибки
             raise Exception('Определение end_date через num определено только для частоты day')
 
+    start_dates = []
+    end_dates = []
+
     if frequency in ('day', 'date'):
         first_date = start_date
-
-        start_dates = []
-        end_dates = []
 
         while first_date <= end_date:
             start_dates.append(first_date)
@@ -117,9 +121,6 @@ def period_range(start_date, end_date=None, num=None,
     elif frequency == 'week':
         first_date = pd.Timestamp(start_date).to_period(freq='W').start_time.to_pydatetime()
 
-        start_dates = []
-        end_dates = []
-
         while first_date <= end_date:
             start_dates.append(first_date)
             end_dates.append((first_date + pd.offsets.Week(delta) - timedelta(1)).to_pydatetime())
@@ -128,9 +129,6 @@ def period_range(start_date, end_date=None, num=None,
 
     elif frequency == 'month':
         first_date = pd.Timestamp(start_date).to_period(freq='M').start_time.to_pydatetime()
-
-        start_dates = []
-        end_dates = []
 
         while first_date <= end_date:
             start_dates.append(first_date)
@@ -141,9 +139,6 @@ def period_range(start_date, end_date=None, num=None,
     elif frequency == 'quarter':
         first_date = pd.Timestamp(start_date).to_period(freq='Q').start_time.to_pydatetime()
 
-        start_dates = []
-        end_dates = []
-
         while first_date <= end_date:
             start_dates.append(first_date)
             end_dates.append((first_date + pd.offsets.QuarterEnd(delta)).to_pydatetime())
@@ -152,9 +147,6 @@ def period_range(start_date, end_date=None, num=None,
 
     elif frequency == 'year':
         first_date = pd.Timestamp(start_date).to_period(freq='A').start_time.to_pydatetime()
-
-        start_dates = []
-        end_dates = []
 
         while first_date <= end_date:
             start_dates.append(first_date)
