@@ -8,6 +8,6 @@ setuptools.setup(
     packages=['daterange'],
     install_requires=['pandas'],
     license='MIT',
-    url='http://github.com/storborg/funniest',
-    author='Flying Circus',
+    url='https://github.com/pavelmaksimov/daterange',
+    author='Pavel Maksimov',
 )
