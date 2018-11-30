@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name='daterange',
+    name='daterangepy',
     version=VERSION,
     description="Генерация периодов",
     long_description=long_description,

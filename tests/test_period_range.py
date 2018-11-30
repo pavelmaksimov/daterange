@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pytest
 
-from daterange.daterange import period_range
+from daterangepy.daterange import period_range
 
 
 @pytest.mark.parametrize('start_date,end_date,'
