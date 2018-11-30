@@ -1,6 +1,6 @@
 import setuptools
 
-VERSION = '30.11.18'
+VERSION = '30.11.18.2'
 
 setuptools.setup(
     name='daterangepy',
