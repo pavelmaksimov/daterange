@@ -10,9 +10,9 @@ setuptools.setup(
     version=VERSION,
     description="Генерация периодов",
     long_description=long_description,
-    packages=['daterange'],
+    packages=['daterangepy'],
     install_requires=['pandas', 'python-dateutil'],
     license='MIT',
-    url='https://github.com/pavelmaksimov/daterange',
+    url='https://github.com/pavelmaksimov/daterangepy',
     author='Pavel Maksimov',
 )

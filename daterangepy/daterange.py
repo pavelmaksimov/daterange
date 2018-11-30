@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 import pandas as pd
 from dateutil import parser
