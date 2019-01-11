@@ -2,7 +2,18 @@
 from datetime import datetime, timedelta
 
 import pandas as pd
+import pendulum
 from dateutil import parser
+
+
+def _to_datetime(dt):
+    if type(dt) is type(pendulum.now()):
+        dt = dt.to_datetime_string()
+
+    if type(dt) is str:
+        dt = parser.parse(dt)
+
+    return dt
 
 
 def date_range(start_date,
@@ -22,10 +33,8 @@ def date_range(start_date,
     :param mandatory_end_date: bool (сделать end_date конечной датой, если заданный интервал превысит её)
     :return: list
     """
-    if type(start_date) is str:
-        start_date = parser.parse(start_date)
-    if type(end_date) is str:
-        end_date = parser.parse(end_date)
+    start_date = _to_datetime(start_date)
+    end_date = _to_datetime(end_date)
 
     if type(delta) is int:
         delta = timedelta(delta)

@@ -3,7 +3,6 @@ image: python:3.5-slim
 test:
   script:
     - apt-get update -qy
-    - apt-get install -y python-dev python3-pip
     - pip install --upgrade setuptools wheel
     - pip install pytest pytest-cov
     - python setup.py install
