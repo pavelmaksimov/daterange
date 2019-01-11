@@ -36,6 +36,7 @@ def date_range(start_date,
     """
     try:
         # Преобразование в datetime формат.
+
         start_date = _to_datetime(start_date)
         end_date = _to_datetime(end_date)
 
