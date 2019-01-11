@@ -35,6 +35,7 @@ def date_range(start_date,
     :return: list
     """
     try:
+        # Преобразование в datetime формат.
         start_date = _to_datetime(start_date)
         end_date = _to_datetime(end_date)
 
@@ -108,10 +109,8 @@ def period_range(start_date, end_date=None, num=None,
         frequency = frequency.lower()
 
         # Преобразование в datetime формат.
-        if type(start_date) is str:
-            start_date = parser.parse(start_date)
-        if type(end_date) is str:
-            end_date = parser.parse(end_date)
+        start_date = _to_datetime(start_date)
+        end_date = _to_datetime(end_date)
 
         # Определение end_date, если он не указан.
         if end_date is None:
