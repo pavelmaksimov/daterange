@@ -14,6 +14,9 @@ def _to_datetime(dt):
     if type(dt) is str:
         dt = parser.parse(dt)
 
+    if type(dt) == type(datetime.now().date()):
+        # Если тип date, то в datetime.
+        dt = datetime.combine(dt, datetime.min.time())
     return dt
 
 
