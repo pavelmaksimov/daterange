@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
-import pytest
-import pendulum
 from datetime import datetime
+
+import pendulum
+import pytest
+
 from daterangepy.daterange import _to_datetime
 
 
