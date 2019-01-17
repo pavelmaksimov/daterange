@@ -78,7 +78,7 @@ def date_range(start_date,
         return sorted(l)
     except Exception as e:
         logging.error('Входящие параметры:')
-        [logging.error('{} = {}', format(k, v)) for k, v in locals().items()]
+        [logging.error('{} = {}', format(k, str(v))) for k, v in locals().items()]
         raise
 
 
@@ -207,7 +207,7 @@ def period_range(start_date, end_date=None, num=None,
 
     except Exception as e:
         logging.error('Входящие параметры:')
-        [logging.error('{} = {}', format(k, v)) for k, v in locals().items()]
+        [logging.error('{} = {}', format(k, str(v))) for k, v in locals().items()]
         raise
 
 def days_ago(days,
