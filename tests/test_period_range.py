@@ -282,13 +282,13 @@ def test_period_year_range(start_date, end_date,
                          [
                              (datetime(2016, 1, 1).date(), datetime(2019, 1, 16, 1, 1, 1, 1), 366, True, False),
                          ])
-def test_period_day_range_custom(start_date, end_date,
-                                 delta,
-                                 start_date_adjustment_by_frequency,
-                                 end_date_adjustment_by_frequency):
+def test_period_year_range_custom(start_date, end_date,
+                                  delta,
+                                  start_date_adjustment_by_frequency,
+                                  end_date_adjustment_by_frequency):
     result = period_range(start_date=start_date,
                           end_date=end_date,
-                          frequency='day', delta=delta,
+                          frequency='year', delta=delta,
                           start_date_adjustment_by_frequency=start_date_adjustment_by_frequency,
                           end_date_adjustment_by_frequency=end_date_adjustment_by_frequency,
                           return_type='dict', string_format='%Y-%m-%d')
