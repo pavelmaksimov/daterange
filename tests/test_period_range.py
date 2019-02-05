@@ -3,7 +3,7 @@ from datetime import datetime
 
 import pytest
 
-from daterangepy.daterange import period_range, frequency_end_date
+from daterangepy.daterange import period_range, frequency_dates
 
 
 @pytest.mark.parametrize('start_date,end_date,'
@@ -295,11 +295,17 @@ def test_period_year_range_custom(start_date, end_date,
     print(result)
 
 
-@pytest.mark.parametrize('start_date,frequency,result',
-                         ((datetime(2019, 1, 1), 'week', datetime(2019, 1, 6, 23, 59, 59, 999)),
-                          (datetime(2019, 1, 1), 'month', datetime(2019, 1, 31, 23, 59, 59, 999)),
-                          (datetime(2019, 1, 1), 'quarter', datetime(2019, 3, 31, 23, 59, 59, 999)),
-                          (datetime(2019, 1, 1), 'year', datetime(2019, 12, 31, 23, 59, 59, 999)),
+@pytest.mark.parametrize('start_date,frequency,result1,result2',
+                         ((datetime(2019, 1, 3), 'week', datetime(2018, 12, 31, 0, 0),
+                           datetime(2019, 1, 6, 23, 59, 59, 999)),
+                          (datetime(2019, 1, 3), 'month', datetime(2019, 1, 1, 0, 0),
+                           datetime(2019, 1, 31, 23, 59, 59, 999)),
+                          (datetime(2019, 1, 3), 'quarter', datetime(2019, 1, 1, 0, 0),
+                           datetime(2019, 3, 31, 23, 59, 59, 999)),
+                          (datetime(2019, 1, 3), 'year', datetime(2019, 1, 1, 0, 0),
+                           datetime(2019, 12, 31, 23, 59, 59, 999)),
                           ))
-def test_frequency_end_date(start_date, frequency, result):
-    assert frequency_end_date(start_date, frequency) == result
+def test_frequency_end_date(start_date, frequency, result1, result2):
+    results = frequency_dates(start_date, frequency)
+    assert results['start'] == result1
+    assert results['end'] == result2

@@ -86,26 +86,23 @@ def date_range(start_date,
         raise
 
 
-def frequency_end_date(start_date, frequency):
+def frequency_dates(date, frequency):
     frequency = frequency.lower()
-    start_date = _to_datetime(start_date)
+    date = _to_datetime(date)
 
-    if frequency == 'week':
-        end_date = pd.Timestamp(start_date).to_period(freq='W').end_time.to_pydatetime()
+    pd_frequency_dict = {
+        'week': 'W',
+        'month': 'M',
+        'quarter': 'Q',
+        'year': 'A',
+    }
 
-    elif frequency == 'month':
-        end_date = pd.Timestamp(start_date).to_period(freq='M').end_time.to_pydatetime()
+    period = pd.Timestamp(date).to_period(freq=pd_frequency_dict[frequency])
 
-    elif frequency == 'quarter':
-        end_date = pd.Timestamp(start_date).to_period(freq='Q').end_time.to_pydatetime()
-
-    elif frequency == 'year':
-        end_date = pd.Timestamp(start_date).to_period(freq='A').end_time.to_pydatetime()
-
-    else:
-        raise Exception('Неизвестный период = {}'.format(frequency))
-
-    return end_date.replace(microsecond=999)
+    return {
+        'start': period.start_time.to_pydatetime().replace(microsecond=0),
+        'end': period.end_time.to_pydatetime().replace(microsecond=999)
+    }
 
 
 def period_range(start_date, end_date=None, num=None,
