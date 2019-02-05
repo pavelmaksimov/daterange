@@ -3,7 +3,7 @@ from datetime import datetime
 
 import pytest
 
-from daterangepy.daterange import period_range
+from daterangepy.daterange import period_range, frequency_end_date
 
 
 @pytest.mark.parametrize('start_date,end_date,'
@@ -293,3 +293,13 @@ def test_period_year_range_custom(start_date, end_date,
                           end_date_adjustment_by_frequency=end_date_adjustment_by_frequency,
                           return_type='dict', string_format='%Y-%m-%d')
     print(result)
+
+
+@pytest.mark.parametrize('start_date,frequency,result',
+                         ((datetime(2019, 1, 1), 'week', datetime(2019, 1, 6, 23, 59, 59, 999)),
+                          (datetime(2019, 1, 1), 'month', datetime(2019, 1, 31, 23, 59, 59, 999)),
+                          (datetime(2019, 1, 1), 'quarter', datetime(2019, 3, 31, 23, 59, 59, 999)),
+                          (datetime(2019, 1, 1), 'year', datetime(2019, 12, 31, 23, 59, 59, 999)),
+                          ))
+def test_frequency_end_date(start_date, frequency, result):
+    assert frequency_end_date(start_date, frequency) == result

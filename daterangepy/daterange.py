@@ -86,7 +86,7 @@ def date_range(start_date,
         raise
 
 
-def get_frequency_end_date(start_date, frequency):
+def frequency_end_date(start_date, frequency):
     frequency = frequency.lower()
     start_date = _to_datetime(start_date)
 
@@ -105,7 +105,7 @@ def get_frequency_end_date(start_date, frequency):
     else:
         raise Exception('Неизвестный период = {}'.format(frequency))
 
-    return end_date
+    return end_date.replace(microsecond=999)
 
 
 def period_range(start_date, end_date=None, num=None,
