@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import datetime as datetime_
 from datetime import datetime
 
 import pytest
@@ -54,23 +55,23 @@ def test_period_day_range(start_date, end_date,
                          'result_date1,result_date2,'
                          'lenght',
                          [
-                             ('2017-01-01', None, 1, 1, False, False, '2017-01-01', '2017-01-01', 1),
-                             ('2017-01-01', None, 1, 1, True, True, '2017-01-01', '2017-01-01', 1),
-                             ('2017-01-01', None, 1, 1, False, True, '2017-01-01', '2017-01-01', 1),
-                             ('2017-01-01', None, 1, 1, True, False, '2017-01-01', '2017-01-01', 1),
-                             ('2017-01-01', None, 2, 1, False, False, '2017-01-01', '2017-01-01', 2),
-                             ('2017-01-01', None, 2, 1, True, True, '2017-01-01', '2017-01-01', 2),
-                             ('2017-01-01', None, 2, 1, False, True, '2017-01-01', '2017-01-01', 2),
-                             ('2017-01-01', None, 2, 1, True, False, '2017-01-01', '2017-01-01', 2),
+                             ('2017-01-01', None, 0, 1, False, False, '2017-01-01', '2017-01-01', 1),
+                             ('2017-01-01', None, 0, 1, True, True, '2017-01-01', '2017-01-01', 1),
+                             ('2017-01-01', None, 0, 1, False, True, '2017-01-01', '2017-01-01', 1),
+                             ('2017-01-01', None, 0, 1, True, False, '2017-01-01', '2017-01-01', 1),
+                             ('2017-01-01', None, 1, 1, False, False, '2017-01-01', '2017-01-01', 2),
+                             ('2017-01-01', None, 1, 1, True, True, '2017-01-01', '2017-01-01', 2),
+                             ('2017-01-01', None, 1, 1, False, True, '2017-01-01', '2017-01-01', 2),
+                             ('2017-01-01', None, 1, 1, True, False, '2017-01-01', '2017-01-01', 2),
 
-                             ('2017-01-01', None, 2, 2, False, False, '2017-01-01', '2017-01-02', 1),
-                             ('2017-01-01', None, 2, 2, True, True, '2017-01-01', '2017-01-02', 1),
-                             ('2017-01-01', None, 2, 2, False, True, '2017-01-01', '2017-01-02', 1),
-                             ('2017-01-01', None, 2, 2, True, False, '2017-01-01', '2017-01-02', 1),
-                             ('2017-01-01', None, 3, 2, False, False, '2017-01-01', '2017-01-02', 2),
-                             ('2017-01-01', None, 3, 2, True, True, '2017-01-01', '2017-01-02', 2),
-                             ('2017-01-01', None, 3, 2, False, True, '2017-01-01', '2017-01-02', 2),
-                             ('2017-01-01', None, 3, 2, True, False, '2017-01-01', '2017-01-02', 2),
+                             ('2017-01-01', None, 1, 2, False, False, '2017-01-01', '2017-01-02', 1),
+                             ('2017-01-01', None, 1, 2, True, True, '2017-01-01', '2017-01-02', 1),
+                             ('2017-01-01', None, 1, 2, False, True, '2017-01-01', '2017-01-02', 1),
+                             ('2017-01-01', None, 1, 2, True, False, '2017-01-01', '2017-01-02', 1),
+                             ('2017-01-01', None, 2, 2, False, False, '2017-01-01', '2017-01-02', 2),
+                             ('2017-01-01', None, 2, 2, True, True, '2017-01-01', '2017-01-02', 2),
+                             ('2017-01-01', None, 2, 2, False, True, '2017-01-01', '2017-01-02', 2),
+                             ('2017-01-01', None, 2, 2, True, False, '2017-01-01', '2017-01-02', 2),
                          ])
 def test_period_day_without_end_date_range(start_date, end_date,
                                            num, delta,
@@ -295,7 +296,7 @@ def test_period_year_range_custom(start_date, end_date,
     print(result)
 
 
-@pytest.mark.parametrize('start_date,frequency,result1,result2',
+@pytest.mark.parametrize('start_date,frequency,start,end',
                          ((datetime(2019, 1, 3), 'week', datetime(2018, 12, 31, 0, 0),
                            datetime(2019, 1, 6, 23, 59, 59, 999)),
                           (datetime(2019, 1, 3), 'month', datetime(2019, 1, 1, 0, 0),
@@ -304,8 +305,11 @@ def test_period_year_range_custom(start_date, end_date,
                            datetime(2019, 3, 31, 23, 59, 59, 999)),
                           (datetime(2019, 1, 3), 'year', datetime(2019, 1, 1, 0, 0),
                            datetime(2019, 12, 31, 23, 59, 59, 999)),
+                          (datetime(2019, 2, 5).replace(tzinfo=datetime_.timezone.utc), 'week',
+                           datetime(2019, 2, 4, 0, 0),
+                           datetime(2019, 2, 10, 23, 59, 59, 999)),
                           ))
-def test_frequency_end_date(start_date, frequency, result1, result2):
+def test_frequency_end_date(start_date, frequency, start, end):
     results = frequency_dates(start_date, frequency)
-    assert results['start'] == result1
-    assert results['end'] == result2
+    assert results['start'] == start
+    assert results['end'] == end
