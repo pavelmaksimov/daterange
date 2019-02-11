@@ -103,8 +103,8 @@ def frequency_dates(date, frequency):
         period = pd.Timestamp(date).to_period(freq=pd_frequency_dict[frequency])
 
         return {
-            'start': period.start_time.to_pydatetime().replace(microsecond=0),
-            'end': period.end_time.to_pydatetime().replace(microsecond=999)
+            'start': period.start_time.to_pydatetime(warn=False).replace(microsecond=0),
+            'end': period.end_time.to_pydatetime(warn=False).replace(microsecond=0)
         }
 
 

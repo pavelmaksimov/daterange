@@ -298,16 +298,16 @@ def test_period_year_range_custom(start_date, end_date,
 
 @pytest.mark.parametrize('start_date,frequency,start,end',
                          ((datetime(2019, 1, 3), 'week', datetime(2018, 12, 31, 0, 0),
-                           datetime(2019, 1, 6, 23, 59, 59, 999)),
+                           datetime(2019, 1, 6, 23, 59, 59)),
                           (datetime(2019, 1, 3), 'month', datetime(2019, 1, 1, 0, 0),
-                           datetime(2019, 1, 31, 23, 59, 59, 999)),
+                           datetime(2019, 1, 31, 23, 59, 59)),
                           (datetime(2019, 1, 3), 'quarter', datetime(2019, 1, 1, 0, 0),
-                           datetime(2019, 3, 31, 23, 59, 59, 999)),
+                           datetime(2019, 3, 31, 23, 59, 59)),
                           (datetime(2019, 1, 3), 'year', datetime(2019, 1, 1, 0, 0),
-                           datetime(2019, 12, 31, 23, 59, 59, 999)),
+                           datetime(2019, 12, 31, 23, 59, 59)),
                           (datetime(2019, 2, 5).replace(tzinfo=datetime_.timezone.utc), 'week',
                            datetime(2019, 2, 4, 0, 0),
-                           datetime(2019, 2, 10, 23, 59, 59, 999)),
+                           datetime(2019, 2, 10, 23, 59, 59)),
                           ))
 def test_frequency_end_date(start_date, frequency, start, end):
     results = frequency_dates(start_date, frequency)
