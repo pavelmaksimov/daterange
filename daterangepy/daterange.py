@@ -132,6 +132,7 @@ def period_range(start_date, end_date=None, num=0,
     :param string_format: формат возвращаемой строки, если return_string_format == True
     :return: [..., dict(date1=dt, date2=dt, date1_str=str, date2_str=str)] | [..., (dt, dt, str, str)]
     """
+
     try:
         if delta < 1:
             raise Exception('delta должна быть больше 0')
@@ -225,9 +226,13 @@ def period_range(start_date, end_date=None, num=0,
 
         return dates
 
-    except Exception as e:
+    except Exception:
         logging.error('Входящие параметры:')
-        [logging.error('{} = {}', format(k, str(v))) for k, v in locals().items()]
+        for k, v in locals().items():
+            try:
+                logging.error('{} = {}', format(k, str(v)))
+            except Exception:
+                pass
         raise
 
 
