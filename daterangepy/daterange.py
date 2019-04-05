@@ -100,11 +100,14 @@ def frequency_dates(date, frequency):
     if frequency in ('day', 'date'):
         return {'start': date, 'end': date}
     else:
-        period = pd.Timestamp(date).to_period(freq=pd_frequency_dict[frequency])
+        period = pd.Timestamp(date) \
+            .to_period(freq=pd_frequency_dict[frequency])
 
         return {
-            'start': period.start_time.to_pydatetime(warn=False).replace(microsecond=0),
-            'end': period.end_time.to_pydatetime(warn=False).replace(microsecond=0)
+            'start': period.start_time.to_pydatetime(warn=False)
+                .replace(microsecond=0),
+            'end': period.end_time.to_pydatetime(warn=False)
+                .replace(microsecond=0)
         }
 
 
@@ -152,6 +155,7 @@ def period_range(start_date, end_date=None, num=0,
                 end_date = start_date + timedelta(num or 0)
             else:
                 end_date = frequency_dates(start_date, frequency)['end']
+            end_date = _to_datetime(end_date)
 
         start_dates = []
         end_dates = []
@@ -220,27 +224,27 @@ def period_range(start_date, end_date=None, num=0,
             dates = []
             for i, i2 in zip(start_dates, end_dates):
                 if add_string_date:
-                    date_ = (i, i2, i.strftime(string_format), i2.strftime(string_format))
+                    date_ = (i, i2, i.strftime(string_format),
+                             i2.strftime(string_format))
                 else:
                     date_ = (i, i2)
                 dates.append(date_)
         else:
-            raise Exception('Неверной значение в return_type допускается "dict" или "tuple"')
+            raise Exception('Неверной значение в return_type '
+                            'допускается "dict" или "tuple"')
 
         return dates
 
     except Exception:
-        logging.error('Входящие параметры:')
+        logging.info('Входящие параметры:')
         for k, v in locals().items():
-            try:
-                logging.error('{} = {}'.format(k, str(v)))
-            except Exception:
-                pass
+            logging.info('{} = {}'.format(k, str(v)))
         raise
 
 
 def days_ago(days,
-             from_date=datetime.now().replace(hour=0, minute=0, second=0, microsecond=0),
+             from_date=datetime.now().replace(
+                 hour=0, minute=0, second=0, microsecond=0),
              return_string=False,
              format='%Y-%m-%d'):
     if type(from_date) is str:
