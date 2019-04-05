@@ -12,7 +12,7 @@ def _to_datetime(dt):
         dt = dt.to_datetime_string()
 
     if type(dt) is type(pendulum.now().date()):
-        dt = dt.to_datetime_string()
+        dt = dt.to_date_string()
         
     if type(dt) is str:
         dt = parser.parse(dt)
