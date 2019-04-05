@@ -161,7 +161,8 @@ def period_range(start_date, end_date=None, num=0,
         end_dates = []
 
         first_date = frequency_dates(start_date, frequency)['start']
-
+        first_date = _to_datetime(first_date)
+        
         if frequency in ('day', 'date'):
             while first_date <= end_date:
                 start_dates.append(first_date)
