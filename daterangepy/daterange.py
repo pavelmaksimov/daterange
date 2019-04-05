@@ -11,6 +11,9 @@ def _to_datetime(dt):
     if type(dt) is type(pendulum.now()):
         dt = dt.to_datetime_string()
 
+    if type(dt) is type(pendulum.now().date()):
+        dt = dt.to_datetime_string()
+        
     if type(dt) is str:
         dt = parser.parse(dt)
 
@@ -152,54 +155,52 @@ def period_range(start_date, end_date=None, num=0,
         # Определение end_date, если он не указан.
         if end_date is None:
             if frequency in ('day', 'date'):
-                end_date = start_date + timedelta(num or 0)
+                end_date = start_date+timedelta(num or 0)
             else:
                 end_date = frequency_dates(start_date, frequency)['end']
-            end_date = _to_datetime(end_date)
 
         start_dates = []
         end_dates = []
 
         first_date = frequency_dates(start_date, frequency)['start']
-        first_date = _to_datetime(first_date)
-        
+
         if frequency in ('day', 'date'):
             while first_date <= end_date:
                 start_dates.append(first_date)
-                end_dates.append(first_date + pd.offsets.Day(delta - 1))
+                end_dates.append(first_date+pd.offsets.Day(delta-1))
 
-                first_date = first_date + pd.offsets.Day(delta)
+                first_date = first_date+pd.offsets.Day(delta)
 
         elif frequency == 'week':
             while first_date <= end_date:
                 start_dates.append(first_date)
-                end_dates.append(first_date + pd.offsets.Week(delta) - timedelta(1))
+                end_dates.append(first_date+pd.offsets.Week(delta)-timedelta(1))
 
-                first_date = first_date + pd.offsets.Week(delta)
+                first_date = first_date+pd.offsets.Week(delta)
 
         elif frequency == 'month':
             while first_date <= end_date:
                 start_dates.append(first_date)
-                end_dates.append(first_date + pd.offsets.MonthEnd(delta))
+                end_dates.append(first_date+pd.offsets.MonthEnd(delta))
 
-                first_date = first_date + pd.offsets.MonthBegin(delta)
+                first_date = first_date+pd.offsets.MonthBegin(delta)
 
         elif frequency == 'quarter':
             while first_date <= end_date:
                 start_dates.append(first_date)
-                end_dates.append(first_date + pd.offsets.QuarterEnd(delta))
+                end_dates.append(first_date+pd.offsets.QuarterEnd(delta))
 
-                first_date = first_date + pd.offsets.QuarterBegin(delta)
+                first_date = first_date+pd.offsets.QuarterBegin(delta)
 
         elif frequency == 'year':
             while first_date <= end_date:
                 start_dates.append(first_date)
-                end_dates.append(first_date + pd.offsets.YearEnd(delta))
+                end_dates.append(first_date+pd.offsets.YearEnd(delta))
 
-                first_date = first_date + pd.offsets.YearBegin(delta)
+                first_date = first_date+pd.offsets.YearBegin(delta)
 
         else:
-            raise Exception('Неизвестное значение frequence')
+            raise ValueError('Неизвестное значение frequence')
 
         if start_date_adjustment_by_frequency is False:
             # Дата начала frequence у start_date.
@@ -231,8 +232,8 @@ def period_range(start_date, end_date=None, num=0,
                     date_ = (i, i2)
                 dates.append(date_)
         else:
-            raise Exception('Неверной значение в return_type '
-                            'допускается "dict" или "tuple"')
+            raise ValueError('Неверной значение в return_type '
+                             'допускается "dict" или "tuple"')
 
         return dates
 
@@ -251,7 +252,7 @@ def days_ago(days,
     if type(from_date) is str:
         from_date = parser.parse(from_date)
 
-    dt = from_date - timedelta(days)
+    dt = from_date-timedelta(days)
 
     return dt.strftime(format) if return_string else dt
 
