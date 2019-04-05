@@ -233,7 +233,7 @@ def period_range(start_date, end_date=None, num=0,
         logging.error('Входящие параметры:')
         for k, v in locals().items():
             try:
-                logging.error('{} = {}', format(k, str(v)))
+                logging.error('{} = {}'.format(k, str(v)))
             except Exception:
                 pass
         raise
