@@ -149,15 +149,14 @@ def period_range(start_date, end_date=None, num=0,
         start_date = _to_datetime(start_date)
         end_date = _to_datetime(end_date)
 
-        if start_date > end_date:
-            raise Exception('start_date больше end_date')
-
         # Определение end_date, если он не указан.
         if end_date is None:
-            if frequency in ('day', 'date'):
-                end_date = start_date+timedelta(num or 0)
-            else:
+            end_date = start_date+timedelta(num or 0)
+            if frequency not in ('day', 'date'):
                 end_date = frequency_dates(start_date, frequency)['end']
+
+        if start_date > end_date:
+            raise Exception('start_date больше end_date')
 
         start_dates = []
         end_dates = []
